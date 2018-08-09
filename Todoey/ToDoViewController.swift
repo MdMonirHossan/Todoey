@@ -12,8 +12,16 @@ class ToDoViewController: UITableViewController {
 
     var itemArray = ["First work" , "Sccond work" , "Third work"]
     
+      let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Get the local data from "ToDoList" and store into item
+        
+        if let item = defaults.array(forKey: "ToDoList") as? [String]{
+            itemArray = item
+        }
        
     }
     //MARK - TableView datasource method
@@ -60,6 +68,9 @@ class ToDoViewController: UITableViewController {
         let action = UIAlertAction(title: "Add item", style: .default) { (action) in
             
             self.itemArray.append(textField.text!)
+            
+            self.defaults.setValue(self.itemArray, forKey: "ToDoList")
+            
             self.tableView.reloadData()
         }
         alert.addAction(action)
